@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/pashapdev/calc_go/pkg/calculation"
+	"github.com/ad-07/calc_go_anatoliy/pkg/calculation"
 )
 
 type Config struct {
@@ -81,7 +81,9 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	result, err := calculation.Calc(request.Expression)
 	if err != nil {
 		if errors.Is(err, calculation.ErrInvalidExpression) {
+			http.Error(w, "", 422)
 			fmt.Fprintf(w, "err: %s", err.Error())
+			
 		} else {
 			fmt.Fprintf(w, "unknown err")
 		}
@@ -92,6 +94,6 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Application) RunServer() error {
-	http.HandleFunc("/", CalcHandler)
+	http.HandleFunc("/api/v1/calculate", CalcHandler)
 	return http.ListenAndServe(":"+a.config.Addr, nil)
 }

@@ -3,7 +3,7 @@ package calculation_test
 import (
 	"testing"
 
-	"github.com/pashapdev/calc_go/pkg/calculation"
+	"github.com/ad-07/calc_go_anatoliy/pkg/calculation"
 )
 
 func TestCalc(t *testing.T) {
