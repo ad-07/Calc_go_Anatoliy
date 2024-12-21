@@ -1,7 +1,7 @@
 package calculation
 
 import (
-	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -29,6 +29,10 @@ func isSign(value rune) bool {
 }
 
 func Calc(expression string) (float64, error) {
+	validExpression := regexp.MustCompile(`^\s*[-+]?[0-9]*\.?[0-9]+\s*[\+\-\*/]\s*[-+]?[0-9]*\.?[0-9]+\s*$`)
+	if !validExpression.MatchString(expression) {
+		return 0, ErrInvalidExpression
+	}
 	if len(expression) < 3 {
 		return 0, ErrInvalidExpression
 	}
@@ -118,6 +122,9 @@ func Calc(expression string) (float64, error) {
 				case '*':
 					res *= stringToFloat64(b)
 				case '/':
+					if b == "0" {
+						return 0, ErrInternalServer
+					}
 					res /= stringToFloat64(b)
 				}
 			} else {
@@ -130,7 +137,7 @@ func Calc(expression string) (float64, error) {
 			/////////////////////////////////////////////////////////////////////////////////////////////
 		case value == 's':
 		default:
-			return 0, fmt.Errorf("Not correct input")
+			return 0, ErrInternalServer
 		}
 	}
 	return res, nil
