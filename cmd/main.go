@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/pashapdev/calc_go/internal/application"
+	"github.com/ad-07/calc_go_anatoliy/pkg/application"
 )
 
 func main() {
