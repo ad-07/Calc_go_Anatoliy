@@ -29,7 +29,7 @@ func isSign(value rune) bool {
 }
 
 func Calc(expression string) (float64, error) {
-	validExpression := regexp.MustCompile(`^\s*[-+]?[0-9]*\.?[0-9]+\s*[\+\-\*/]\s*[-+]?[0-9]*\.?[0-9]+\s*$`)
+	validExpression := regexp.MustCompile(`^[0-9+\-*/()]+$`)
 	if !validExpression.MatchString(expression) {
 		return 0, ErrInvalidExpression
 	}
