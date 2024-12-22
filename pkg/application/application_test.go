@@ -23,17 +23,17 @@ func TestCalcHandler_Success(t *testing.T) {
 		t.Errorf("Error:%v", err)
 	}
 
-	// Check the response status code
+	
 	// Check the response body
 	if string(data) != expected {
 		t.Errorf("expected result: 4.000000 but got %v", string(data))
 	}
+	// Check the response status code
 	if res.StatusCode != http.StatusOK {
 		t.Errorf("expected status %d, but got %d", http.StatusOK, w.Code)
 	}
 }
 func TestCalcHandler_Success2(t *testing.T) {
-	// Prepare a valid request body
 	// Prepare a valid request body
 	body := `{"expression": "1/2"}`
 	expected := "result: 0.500000"
@@ -48,11 +48,12 @@ func TestCalcHandler_Success2(t *testing.T) {
 		t.Errorf("Error:%v", err)
 	}
 
-	// Check the response status code
+	
 	// Check the response body
 	if string(data) != expected {
 		t.Errorf("expected result: 0.500000 but got %v", string(data))
 	}
+	// Check the response status code
 	if res.StatusCode != http.StatusOK {
 		t.Errorf("wrong status")
 	}
