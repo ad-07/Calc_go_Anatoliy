@@ -43,11 +43,8 @@ api calc
 
 * Лог о каждом запросе: 2021/10/20 12:00:00: Received request: r.Method r.URL.Path r.RemoteAddr
 
-* при ошибке net.SplitHostPort: 2021/10/20 12:00:00: Failed to parse RemoteAddr: err 
-
 * и возврат "Internal Server Error", с кодом http.StatusInternalServerError
 
-* при успешном net.SplitHostPort: 2021/10/20 12:00:00: Received request: r.Method r.URL.Path from IP: host, Port: port
 
 
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ad-07/calc_go_anatoliy/pkg/application"
+	"calc_go_anatoliy/pkg/application"
 )
 
 func main() {

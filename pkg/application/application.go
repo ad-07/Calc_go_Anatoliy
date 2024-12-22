@@ -5,33 +5,26 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net"
 	"net/http"
-	"os"
 
-	"github.com/ad-07/calc_go_anatoliy/pkg/calculation"
+	"calc_go_anatoliy/pkg/calculation"
 )
 
 type Config struct {
 	Port string
 }
 
-func ConfigFromEnv() *Config {
-	config := new(Config)
-	config.Port = os.Getenv("PORT")
-	if config.Port == "" {
-		config.Port = "8080"
-	}
-	return config
-}
 
 type Application struct {
 	config *Config
 }
 
 func New() *Application {
+	cnf := new(Config)
+	cnf.Port = "8080"
 	return &Application{
-		config: ConfigFromEnv(),
+
+		config: cnf,
 	}
 }
 
@@ -46,16 +39,10 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Received request: %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr) // Лог о каждом запросе
-	host, port, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		log.Printf("Failed to parse RemoteAddr: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-	log.Printf("Received request: %s %s from IP: %s, Port: %s", r.Method, r.URL.Path, host, port)
+
 	request := new(Request)
 	defer r.Body.Close()
-	err = json.NewDecoder(r.Body).Decode(&request)
+	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
