@@ -1,7 +1,6 @@
 package application
 
 import (
-	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,20 +8,19 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/ad-07/calc_go_anatoliy/pkg/calculation"
 )
 
 type Config struct {
-	Addr string
+	Port string
 }
 
 func ConfigFromEnv() *Config {
 	config := new(Config)
-	config.Addr = os.Getenv("PORT")
-	if config.Addr == "" {
-		config.Addr = "8080"
+	config.Port = os.Getenv("PORT")
+	if config.Port == "" {
+		config.Port = "8080"
 	}
 	return config
 }
@@ -34,35 +32,6 @@ type Application struct {
 func New() *Application {
 	return &Application{
 		config: ConfigFromEnv(),
-	}
-}
-
-// Функция запуска приложения
-// тут будем чиать введенную строку и после нажатия ENTER писать результат работы программы на экране
-// если пользователь ввел exit - то останаваливаем приложение
-func (a *Application) Run() error {
-	for {
-		// читаем выражение для вычисления из командной строки
-		log.Println("input expression")
-		reader := bufio.NewReader(os.Stdin)
-		text, err := reader.ReadString('\n')
-		if err != nil {
-			log.Println("failed to read expression from console")
-		}
-		// убираем пробелы, чтобы оставить только вычислемое выражение
-		text = strings.TrimSpace(text)
-		// выходим, если ввели команду "exit"
-		if text == "exit" {
-			log.Println("aplication was successfully closed")
-			return nil
-		}
-		//вычисляем выражение
-		result, err := calculation.Calc(text)
-		if err != nil {
-			log.Println(text, " calculation failed wit error: ", err)
-		} else {
-			log.Println(text, "=", result)
-		}
 	}
 }
 
@@ -110,5 +79,5 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 func (a *Application) RunServer() error {
 	log.Println("Starting server...")
 	http.HandleFunc("/api/v1/calculate", CalcHandler)
-	return http.ListenAndServe(":"+a.config.Addr, nil)
+	return http.ListenAndServe(":"+a.config.Port, nil)
 }

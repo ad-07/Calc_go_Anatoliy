@@ -6,23 +6,23 @@ import (
 	"strings"
 )
 
-func stringToFloat64(str string) float64 {
-	degree := float64(1)
-	var res float64 = 0
-	var invers bool = false
-	for i := len(str); i > 0; i-- {
-		if str[i-1] == '-' {
-			invers = true
-		} else {
-			res += float64(9-int('9'-str[i-1])) * degree
-			degree *= 10
-		}
-	}
-	if invers {
-		res = 0 - res
-	}
-	return res
-}
+// func stringToFloat64(str string) float64 {
+// 	degree := float64(1)
+// 	var res float64 = 0
+// 	var invers bool = false
+// 	for i := len(str); i > 0; i-- {
+// 		if str[i-1] == '-' {
+// 			invers = true
+// 		} else {
+// 			res += float64(9-int('9'-str[i-1])) * degree
+// 			degree *= 10
+// 		}
+// 	}
+// 	if invers {
+// 		res = 0 - res
+// 	}
+// 	return res
+// }
 
 func isSign(value rune) bool {
 	return value == '+' || value == '-' || value == '*' || value == '/'
@@ -36,20 +36,20 @@ func Calc(expression string) (float64, error) {
 	if len(expression) < 3 {
 		return 0, ErrInvalidExpression
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	var res float64
 	var b string
 	var c rune = 0
 	var resflag bool = false
 	var isc int
 	var countc int = 0
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	for _, value := range expression {
 		if isSign(value) {
 			countc++
 		}
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	if isSign(rune(expression[0])) || isSign(rune(expression[len(expression)-1])) {
 		return 0, ErrInvalidExpression
 	}
@@ -71,7 +71,7 @@ func Calc(expression string) (float64, error) {
 	if countc > 1 {
 		for i := 1; i < len(expression); i++ {
 			value := rune(expression[i])
-			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
 			//Умножение и деление
 			if value == '*' || value == '/' {
 				var imin int = i - 1
@@ -105,7 +105,7 @@ func Calc(expression string) (float64, error) {
 			}
 		}
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	for _, value := range expression + "s" {
 		switch {
 		case value == ' ':
@@ -116,20 +116,24 @@ func Calc(expression string) (float64, error) {
 			if resflag {
 				switch c {
 				case '+':
-					res += stringToFloat64(b)
+					newNum,_ := strconv.ParseFloat(b, 64)
+					res += newNum
 				case '-':
-					res -= stringToFloat64(b)
+					newNum,_ := strconv.ParseFloat(b, 64)
+					res -= newNum
 				case '*':
-					res *= stringToFloat64(b)
+					newNum,_ := strconv.ParseFloat(b, 64)
+					res *= newNum
 				case '/':
 					if b == "0" {
 						return 0, ErrInternalServer
 					}
-					res /= stringToFloat64(b)
+					newNum,_ := strconv.ParseFloat(b, 64)
+					res /= newNum
 				}
 			} else {
 				resflag = true
-				res = stringToFloat64(b)
+				res,_ = strconv.ParseFloat(b, 64)
 			}
 			b = strings.ReplaceAll(b, b, "")
 			c = value
