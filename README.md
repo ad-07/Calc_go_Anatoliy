@@ -1,25 +1,25 @@
 # calc_go
 api calc
 
-## веб-сервис: пользователь отправляет арифметическое выражение по HTTP и получает в ответ его результат.\
-#### У сервиса 1 endpoint с url-ом /api/v1/calculate. Пользователь отправляет на этот url POST-запрос с телом:\
-#### {\
-####    "expression": "выражение, которое ввёл пользователь"\
-#### }\
-#### ответ пользователь получает HTTP-ответ с телом:\
-#### {\
-####    "result": "результат выражения"\
-#### }\
-#### и кодом 200, если выражение вычислено успешно, либо HTTP-ответ с телом:\
-#### {\
-####    "error": "Expression is not valid"\
-#### }\
-#### и кодом 422, если входные данные не соответствуют требованиям приложения — например, кроме цифр и разрешённых операций пользователь ввёл символ английского алфавита.\
-#### Ещё один вариант HTTP-ответа:\
-#### {\
-####    "error": "Internal server error"\
-#### }\
-#### и код 500 в случае какой-либо иной ошибки («Что-то пошло не так»).\
+## веб-сервис: пользователь отправляет арифметическое выражение по HTTP и получает в ответ его результат.
+#### У сервиса 1 endpoint с url-ом /api/v1/calculate. Пользователь отправляет на этот url POST-запрос с телом:
+#### {
+####    "expression": "выражение, которое ввёл пользователь"
+#### }
+#### ответ пользователь получает HTTP-ответ с телом:
+#### {
+####    "result": "результат выражения"
+#### }
+#### и кодом 200, если выражение вычислено успешно, либо HTTP-ответ с телом:
+#### {
+####    "error": "Expression is not valid"
+#### }
+#### и кодом 422, если входные данные не соответствуют требованиям приложения — например, кроме цифр и разрешённых операций пользователь ввёл символ английского алфавита.
+#### Ещё один вариант HTTP-ответа:
+#### {
+####    "error": "Internal server error"
+#### }
+#### и код 500 в случае какой-либо иной ошибки («Что-то пошло не так»).
 
 
 ## запуск проекта:
@@ -27,21 +27,21 @@ api calc
 
 ## запросы:
 
-#### curl --location 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "2+2"}'
+### curl --location 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "2+2"}'
 
-##### вывод: result: 4.000000 и статус 200 OK
+> вывод: result: 4.000000 и статус 200 OK
 
-#### curl --location 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "6/0"}'
+### curl --location 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "6/0"}'
 
-##### вывод: error: Internal server error и статус 500 Internal Server Error
+> вывод: error: Internal server error и статус 500 Internal Server Error
 
-#### curl --location --request GET 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "(2+2)*2"}'
+### curl --location --request GET 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "(2+2)*2"}'
 
-##### вывод: error: Method not allowed и статус 405 Method not allowed
+> вывод: error: Method not allowed и статус 405 Method not allowed
 
-#### curl --location --request GET 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "(2+2)**2"}'
+### curl --location --request GET 'localhost:8080/api/v1/calculate' \ --header 'Content-Type: application/json' \ --data '{"expression": "(2+2)**2"}'
 
-##### вывод: error: Expression is not valid и статус 422 Unprocessable Entity
+> вывод: error: Expression is not valid и статус 422 Unprocessable Entity
 
 
 
